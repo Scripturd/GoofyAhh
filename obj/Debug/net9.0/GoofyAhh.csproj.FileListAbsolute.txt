@@ -1,0 +1,14 @@
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\bin\Debug\net9.0\GoofyAhh.exe
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\bin\Debug\net9.0\GoofyAhh.deps.json
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\bin\Debug\net9.0\GoofyAhh.runtimeconfig.json
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\bin\Debug\net9.0\GoofyAhh.dll
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\bin\Debug\net9.0\GoofyAhh.pdb
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\GoofyAhh.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\GoofyAhh.AssemblyInfoInputs.cache
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\GoofyAhh.AssemblyInfo.cs
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\GoofyAhh.csproj.CoreCompileInputs.cache
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\GoofyAhh.dll
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\refint\GoofyAhh.dll
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\GoofyAhh.pdb
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\GoofyAhh.genruntimeconfig.cache
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\ref\GoofyAhh.dll
