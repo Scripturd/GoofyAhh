@@ -1,4 +1,5 @@
 ﻿using GoofyAhh.Common.Commands;
+using Spectre.Console;
 
 namespace GoofyAhh.Common;
 
@@ -26,6 +27,9 @@ public class Program
             uiService, 
             random);
 
+        uiService.Clear();
+        DrawPanel();
+
         while (true)
         {
             Console.Title = "Main Menu";
@@ -34,7 +38,14 @@ public class Program
             ICommand selectedCommand = uiService.SelectCommand(commandRegistry.MainMenuCommands, "Select a command:");
             Console.Title = selectedCommand.Name;
             uiService.Clear();
+            DrawPanel();
             selectedCommand.Execute();
+        }
+
+        void DrawPanel()
+        {
+            Panel panel = new("panel");
+            AnsiConsole.Write(panel);
         }
     }
 }

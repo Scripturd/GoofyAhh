@@ -30,7 +30,7 @@ public class Calculator
                 break;
         }
 
-        if (_uiService.SelectYesNo("Do you want to continue using the calc?"))
+        if (_uiService.Confirm("Do you want to continue using the calc?"))
             Start();
     }
 

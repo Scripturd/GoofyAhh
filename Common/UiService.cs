@@ -1,15 +1,10 @@
-﻿namespace GoofyAhh.Common;
+﻿using Spectre.Console;
+
+namespace GoofyAhh.Common;
 
 public class UiService
 {
     private readonly Random _random;
-    private readonly string[] _yesOrNoResponses = [
-        "Please say yes or no", 
-        "Say yes or no", 
-        "for the third time say yes or no human!", 
-        "IT WAS A SIMPLE YES OR NO QUESTION!", 
-        "Listen here stupid, if you fail again, I'm coming for you", 
-        "..."];
 
     public UiService(Random random)
     {
@@ -73,7 +68,8 @@ public class UiService
     }
     public void Print(string text)
     {
-        Console.WriteLine(text);
+        //Console.WriteLine(text);
+        AnsiConsole.WriteLine(text);
     }
     public void PrintSlowly(string text)
     {
@@ -82,7 +78,7 @@ public class UiService
 
         foreach (char character in text)
         {
-            Console.Write(character);
+            AnsiConsole.Write(character);
 
             if (character == ' ')
                 continue;
@@ -91,7 +87,7 @@ public class UiService
             Thread.Sleep(delay);
         }
 
-        Console.WriteLine();
+        AnsiConsole.WriteLine();
     }
     public void LoadingAnimation(int milliseconds, string text = "")
     {
@@ -135,9 +131,19 @@ public class UiService
         return input;
     }
 
-    public bool SelectYesNo(string question)
-        => SelectYesNo(question, angerLevel: 0);
-    private bool SelectYesNo(string question, int angerLevel)
+    public bool Confirm(string question)
+    {
+        //AnsiConsole.Confirm(question, true);
+
+        string answer = AnsiConsole.Prompt(
+            new TextPrompt<string>(question)
+            .AddChoice("yes")
+            .AddChoice("no")
+            .DefaultValue("yes"));
+
+        return answer == "yes";
+    }
+    private bool OldConfirm(string question)
     {
         Print(question);
         string input = ReadLine();
@@ -148,16 +154,20 @@ public class UiService
         if (input == "no")
             return false;
 
-        angerLevel = int.Min(angerLevel, _yesOrNoResponses.Length - 1);
-        Print(_yesOrNoResponses[angerLevel]);
-
-        return SelectYesNo(question, angerLevel + 1);
+        return OldConfirm(question);
     }
 
     public int SelectInt(string question, int min = int.MinValue, int max = int.MaxValue)
     {
-        Print(question);
-        return SelectInt(min, max);
+        return AnsiConsole.Prompt(
+            new TextPrompt<int>(question)
+                .Validate(x =>
+                {
+                    if (x < min || x > max)
+                        return ValidationResult.Error($"Enter a number between {min} and {max}.");
+
+                    return ValidationResult.Success();
+                }));
     }
     private int SelectInt(int min = int.MinValue, int max = int.MaxValue)
     {
@@ -184,16 +194,22 @@ public class UiService
             return SelectInt(min, max);
     }
 
-    public int SelectString(string question, string[] options)
+    public int SelectString(string question, string[] choices)
     {
+        string selectedString = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title(question)
+            .AddChoices(choices)
+            );
+
         Print(question);
 
-        for (int i = 0; i < options.Length; i++)
-            Console.WriteLine($"({i}): {options[i]}");
+        for (int i = 0; i < choices.Length; i++)
+            Print($"({i}): {choices[i]}");
 
-        int selectedIndex = SelectInt(min: 0, max: options.Length - 1);
+        int selectedIndex = SelectInt(min: 0, max: choices.Length - 1);
 
-        Print($"You selected ({options[selectedIndex]})");
+        Print($"You selected ({choices[selectedIndex]})");
         Space();
 
         return selectedIndex;

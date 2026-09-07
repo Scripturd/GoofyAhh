@@ -12,3 +12,7 @@ C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\refint\GoofyAh
 C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\GoofyAhh.pdb
 C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\GoofyAhh.genruntimeconfig.cache
 C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\ref\GoofyAhh.dll
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\bin\Debug\net9.0\Spectre.Console.dll
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\bin\Debug\net9.0\Spectre.Console.Ansi.dll
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\GoofyAhh.csproj.AssemblyReference.cache
+C:\Users\08TOP001\source\repos\GoofyAhh\GoofyAhh\obj\Debug\net9.0\GoofyAhh.csproj.Up2Date

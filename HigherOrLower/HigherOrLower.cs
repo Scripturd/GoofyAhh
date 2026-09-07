@@ -73,7 +73,7 @@ public class HigherOrLower
             _uiService.Print($"You lost, the correct answer was {correctAnswer}");
         }
 
-        if (_uiService.SelectYesNo("Play again?"))
+        if (_uiService.Confirm("Play again?"))
             Start();
     }
 }

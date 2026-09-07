@@ -1,4 +1,5 @@
 ﻿using GoofyAhh.Common;
+using Spectre.Console;
 
 namespace GoofyAhh.BuckshotRoulette;
 
@@ -25,13 +26,6 @@ public class Game
 
         Shotgun shotgun = new(_random);
         GameUi gameUi = new(_uiService, player, dealer, shotgun);
-        gameUi.Clear();
-
-        _uiService.PrintSlowly("Press enter to start");
-        _uiService.ReadLine();
-        gameUi.Clear();
-        _uiService.LoadingAnimation(1000);
-        gameUi.Clear();
 
         int initialHealth = _uiService.SelectInt("Select the amount of health for you and the dealer", 1, 5);
         player.Heal(initialHealth);
@@ -50,9 +44,20 @@ public class Game
         context.AddState(winState);
         context.AddState(loseState);
 
-        gameUi.Clear();
-        _uiService.LoadingAnimation(3000, "Starting game");
+        gameUi.CreateLiveHealthTable(MainGame);
 
-        context.TransitionTo<ReloadState>();
+        void MainGame()
+        {
+            _uiService.PrintSlowly("Press enter to start");
+            _uiService.ReadLine();
+            gameUi.Clear();
+            _uiService.LoadingAnimation(1000);
+            gameUi.Clear();
+
+            gameUi.Clear();
+            _uiService.LoadingAnimation(3000, "Starting game");
+
+            context.TransitionTo<ReloadState>();
+        }
     }
 }

@@ -39,7 +39,7 @@ public class MathTest
 
         _uiService.Print($"You answered {amountCorrect} out of {amountQuestions} questions correctly");
 
-        if (_uiService.SelectYesNo("Do you want to play again?"))
+        if (_uiService.Confirm("Do you want to play again?"))
             Start();
     }
 

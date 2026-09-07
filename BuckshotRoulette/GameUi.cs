@@ -1,4 +1,5 @@
-﻿using GoofyAhh.Common;
+﻿using Spectre.Console;
+using GoofyAhh.Common;
 using System.Diagnostics;
 
 namespace GoofyAhh.BuckshotRoulette;
@@ -11,11 +12,12 @@ internal class GameUi
     private readonly Shotgun _shotgun;
 
     private int _titleTop = 0;
-    private int _healthTop = 15;
-    private string _healthText = $"Your health: X. Dealer's health: X";
+    private int _ammoTop = 5;
+
+    private Table _healthTable;
 
     private string _titleText;
-    public string AmmoText { get; set; } = $"Lives: X. Blanks: X";
+    private string _ammoText = $"Lives: X. Blanks: X";
 
     public GameUi(
         UiService uiService,
@@ -28,38 +30,65 @@ internal class GameUi
         _dealer = dealer;
         _shotgun = shotgun;
 
-        _player.HealthChanged += UpdateHealthText;
-        _dealer.HealthChanged += UpdateHealthText;
-
         _titleText = File.ReadAllText("C:\\Users\\08TOP001\\source\\repos\\GoofyAhh\\GoofyAhh\\BuckshotRoulette\\Title.txt");
     }
 
     public void Clear()
     {
-        _uiService.Clear();
+        //_uiService.Clear();
+
+        _uiService.Space(10);
+
+        UpdateAmmoText();
 
         _uiService.HorizontalBar();
 
-        Scroll();
+        //Scroll();
     }
 
-    private void UpdateHealthText()
+    public void CreateLiveHealthTable(Action game)
     {
-        _healthText = $"Your health: {_player.Health}. Dealer's health: {_dealer.Health}";
-        _uiService.ReplaceLine(_healthTop, _healthText);
+        _healthTable = CreateHealthTable();
+        AnsiConsole.Live(_healthTable)
+        .Start(ctx =>
+        {
+            _player.HealthChanged += () => UpdateHealthTable(ctx);
+            _dealer.HealthChanged += () => UpdateHealthTable(ctx);
+
+            game.Invoke();
+        });
+    }
+    private Table CreateHealthTable()
+    {
+        Table table = new();
+
+        table.AddColumn("Your Health:");
+        table.AddColumn("Dealer's Health:");
+
+        table.AddRow(
+            _player.Health.ToString(),
+            _dealer.Health.ToString());
+
+        return table;
+    }
+    private void UpdateHealthTable(LiveDisplayContext tableContext)
+    {
+        _healthTable.UpdateCell(0, 0, _player.Health.ToString());
+        _healthTable.UpdateCell(0, 1, _dealer.Health.ToString());
+
+        tableContext.Refresh();
     }
 
     public void UpdateAmmoText()
     {
-        AmmoText = $"Lives: {_shotgun.LiveShellAmount}. Blanks: {_shotgun.BlankShellAmount}";
+        _ammoText = $"Lives: {_shotgun.LiveShellAmount}. Blanks: {_shotgun.BlankShellAmount}";
+        _uiService.ReplaceLine(_ammoTop, _ammoText);
     }
 
     public void Scroll()
     {
         ScrollText(_titleText, _titleTop, 100000);
     }
-
-
     public void ScrollText(string text, int top, int durationMilliseconds)
     {
         string[] lines = text.Split(Environment.NewLine);
