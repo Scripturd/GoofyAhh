@@ -1,6 +1,4 @@
-﻿using Spectre.Console;
-
-namespace GoofyAhh.Common.Commands;
+﻿namespace GoofyAhh.Common.Commands;
 
 public static class CommandUiExtensions
 {
@@ -9,13 +7,7 @@ public static class CommandUiExtensions
         IReadOnlyList<ICommand> commands,
         string question)
     {
-        string[] commandNames = [.. commands.Select(command => command.Name)];
-
-        return AnsiConsole.Prompt(
-            new SelectionPrompt<ICommand>()
-            .UseConverter((x) => x.Name)
-            .AddChoices(commands)
-            .Title(question));
+        string[] commandNames = commands.Select(command => command.Name).ToArray();
 
         int index = uiService.SelectString(question, commandNames);
 

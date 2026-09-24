@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GoofyAhh.Hangman
 {
-    internal class StartCommand
+    public class StartCommand
     {
     }
 }

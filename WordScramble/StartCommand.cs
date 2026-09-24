@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GoofyAhh.WordScramble
 {
-    internal class StartCommand
+    public class StartCommand
     {
     }
 }

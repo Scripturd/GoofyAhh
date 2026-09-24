@@ -2,7 +2,7 @@
 
 namespace GoofyAhh.BuckshotRoulette;
 
-internal class LoseState : IState
+public class LoseState : IState
 {
     private readonly UiService _uiService;
 
@@ -13,7 +13,9 @@ internal class LoseState : IState
 
     public void Start()
     {
-        _uiService.PrintSlowly("You've been killed");
-        _uiService.PrintSlowly("You lose.");
+        _uiService.PrintPause("You've been killed");
+        _uiService.PrintPause("You lose.");
+        _uiService.Print("Press any key to exit.");
+        _uiService.WaitForKeyPress();
     }
 }

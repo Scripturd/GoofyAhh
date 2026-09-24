@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ice/u6aN7dk=",
+  "dgSpecHash": "WauDEFvFKAY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\08TOP001\\source\\repos\\GoofyAhh\\GoofyAhh\\GoofyAhh.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\08TOP001\\.nuget\\packages\\spectre.console\\0.57.2\\spectre.console.0.57.2.nupkg.sha512",
-    "C:\\Users\\08TOP001\\.nuget\\packages\\spectre.console.ansi\\0.57.2\\spectre.console.ansi.0.57.2.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\torka\\Documents\\GitHub\\GoofyAhh\\GoofyAhh.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

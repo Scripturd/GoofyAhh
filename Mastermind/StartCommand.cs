@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GoofyAhh.Common.Commands;
 
-namespace GoofyAhh.Mastermind
+namespace GoofyAhh.Mastermind;
+
+public class StartCommand : ICommand
 {
-    internal class StartCommand
+    private readonly Game _game;
+
+    public string Name => "MasterMind";
+
+    public StartCommand(Game game)
     {
+        _game = game;
+    }
+
+    public void Execute()
+    {
+        _game.Start();
     }
 }

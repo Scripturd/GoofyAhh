@@ -1,6 +1,6 @@
 ﻿namespace GoofyAhh.BuckshotRoulette;
 
-internal class ShellSequence
+public class ShellSequence
 {
     private readonly Random _random;
     private List<ShellType> _shells = [];

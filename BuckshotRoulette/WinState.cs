@@ -2,7 +2,7 @@
 
 namespace GoofyAhh.BuckshotRoulette;
 
-internal class WinState : IState
+public class WinState : IState
 {
     private readonly UiService _uiService;
 
@@ -13,7 +13,9 @@ internal class WinState : IState
 
     public void Start()
     {
-        _uiService.PrintSlowly("The dealer is dead");
-        _uiService.PrintSlowly("You won, congratulations!");
+        _uiService.PrintPause("The dealer is dead");
+        _uiService.PrintPause("You won, congratulations!");
+        _uiService.Print("Press any key to exit.");
+        _uiService.WaitForKeyPress();
     }
 }

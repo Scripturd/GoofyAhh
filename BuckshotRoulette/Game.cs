@@ -1,5 +1,5 @@
-﻿using GoofyAhh.Common;
-using Spectre.Console;
+﻿using GoofyAhh.BuckshotRoulette.Items;
+using GoofyAhh.Common;
 
 namespace GoofyAhh.BuckshotRoulette;
 
@@ -18,46 +18,39 @@ public class Game
 
     public void Start()
     {
-        Console.BackgroundColor = ConsoleColor.Black;
-        Console.ForegroundColor = ConsoleColor.Red;
-
-        Player player = new(0);
-        Dealer dealer = new(0);
-
-        Shotgun shotgun = new(_random);
-        GameUi gameUi = new(_uiService, player, dealer, shotgun);
-
         int initialHealth = _uiService.SelectInt("Select the amount of health for you and the dealer", 1, 5);
-        player.Heal(initialHealth);
-        dealer.Heal(initialHealth);
+
+
+        Health playerHealth = new(initialHealth);
+        Inventory playerInventory = new();
+
+        Health dealerHealth = new(initialHealth);
+        Inventory dealerInventory = new();
 
         Context context = new();
-        ReloadState reloadState = new(context, gameUi, _uiService, shotgun);
-        PlayerTurnState playerTurnState = new(context, gameUi, _uiService, shotgun, player, dealer);
-        DealerTurnState dealerTurnState = new(context, gameUi, _uiService, _random, shotgun, player, dealer);
+
+        Shotgun shotgun = new(context, _uiService, _random, playerHealth, dealerHealth);
+        GameUi gameUi = new(_uiService, shotgun, playerHealth, dealerHealth);
+
+        SawFactory sawFactory = new(context, _uiService, shotgun);
+        CigaretteFactory cigaretteFactory = new(context, _uiService, playerHealth, dealerHealth);
+
+        DealItemsState dealItemsState = new(context, _uiService, playerInventory, dealerInventory, _random, sawFactory, cigaretteFactory);
+        ReloadState reloadState = new(context, _uiService, shotgun);
+        PlayerTurnState playerTurnState = new(_uiService, playerInventory, gameUi, shotgun);
+        DealerTurnState dealerTurnState = new(_uiService, dealerInventory, gameUi, _random, shotgun);
         WinState winState = new(_uiService);
         LoseState loseState = new(_uiService);
 
+        context.AddState(dealItemsState);
         context.AddState(reloadState);
         context.AddState(playerTurnState);
         context.AddState(dealerTurnState);
         context.AddState(winState);
         context.AddState(loseState);
 
-        gameUi.CreateLiveHealthTable(MainGame);
+        _uiService.PrintPause("Starting game");
 
-        void MainGame()
-        {
-            _uiService.PrintSlowly("Press enter to start");
-            _uiService.ReadLine();
-            gameUi.Clear();
-            _uiService.LoadingAnimation(1000);
-            gameUi.Clear();
-
-            gameUi.Clear();
-            _uiService.LoadingAnimation(3000, "Starting game");
-
-            context.TransitionTo<ReloadState>();
-        }
+        context.TransitionTo<ReloadState>();
     }
 }

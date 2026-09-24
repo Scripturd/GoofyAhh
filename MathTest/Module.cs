@@ -6,7 +6,7 @@ namespace GoofyAhh.MathTest
     public class Module
     {
         public Module(
-            CommandRegistry commandRegistry,
+            MainMenuCommandRegistry commandRegistry,
             UiService uiService,
             Random random)
         {

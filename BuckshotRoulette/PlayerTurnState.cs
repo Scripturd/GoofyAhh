@@ -1,113 +1,55 @@
-﻿using GoofyAhh.Common;
+﻿using GoofyAhh.BuckshotRoulette.Items;
+using GoofyAhh.Common;
 
 namespace GoofyAhh.BuckshotRoulette;
 
-internal class PlayerTurnState : IState
+public class PlayerTurnState : IState
 {
-    private readonly Context _context;
-    private readonly GameUi _gameUi; 
     private readonly UiService _uiService;
+    private readonly Inventory _playerInventory;
+    private readonly GameUi _gameUi;
     private readonly Shotgun _shotgun;
-    private readonly Player _player;
-    private readonly Dealer _dealer;
 
     public PlayerTurnState(
-        Context context,
-        GameUi gameUi,
         UiService uiService,
-        Shotgun shotgun,
-        Player player, 
-        Dealer dealer)
+        Inventory playerInventory,
+        GameUi gameUi,
+        Shotgun shotgun)
     {
-        _context = context;
-        _gameUi = gameUi;
         _uiService = uiService;
+        _playerInventory = playerInventory;
+        _gameUi = gameUi;
         _shotgun = shotgun;
-        _player = player;
-        _dealer = dealer;
     }
 
     public void Start()
     {
-        _uiService.LoadingAnimation(3000, "Your turn");
-        SelectTarget();
+        _uiService.Print("Press any key to start your turn");
+        _uiService.WaitForKeyPress();
+        _uiService.Clear();
+
+        _gameUi.PrintInfo();
+
+        IItem selectedItem = SelectItem("Choose an item to use");
+        UseItem(selectedItem);
     }
 
-    private void SelectTarget()
+    public IItem SelectItem(string question)
     {
-        _gameUi.UpdateAmmoText();
-        _gameUi.Clear();
+        List<IItem> usableItems = [];
+        usableItems.Add(_shotgun);
+        usableItems.AddRange(_playerInventory.Items);
 
-        if (_shotgun.IsEmpty)
-        {
-            _uiService.LoadingAnimation(3000, "The gun is empty");
-            _context.TransitionTo<ReloadState>();
-        }
-
-        _gameUi.Clear();
-        
-        Target selectedTarget = _uiService.SelectEnum<Target>("Select your target:");
-        _uiService.LoadingAnimation(3000);
-
-        _gameUi.Clear();
-
-        _uiService.LoadingAnimation(3000, "You pull the trigger");
-
-        if (selectedTarget == Target.You)
-        {
-            ShootAtSelf();
-        }
-        else
-        {
-            ShootAtOpponent();
-        }
+        string[] itemNames = [.. usableItems.Select(x => x.Name)];
+        int selectedItemIndex = _uiService.SelectString(question, itemNames);
+        IItem selectedItem = usableItems[selectedItemIndex];
+        return selectedItem;
     }
-
-    private void ShootAtSelf()
+    public void UseItem(IItem item)
     {
-        ShellType shellType = _shotgun.ShootAt(_player);
-        if (shellType == ShellType.Live)
-        {
-            _uiService.LoadingAnimation(3000, "It was live, you shot yourself");
+        if (_playerInventory.Contains(item))
+            _playerInventory.Remove(item);
 
-            if (!_player.IsAlive)
-            {
-                _context.TransitionTo<LoseState>();
-                return;
-            }
-
-            _context.TransitionTo<DealerTurnState>();
-        }
-        else
-        {
-            _uiService.LoadingAnimation(3000, "It was blank, your turn again");
-            SelectTarget();
-        }
-    }
-    private void ShootAtOpponent()
-    {
-        ShellType shellType = _shotgun.ShootAt(_dealer);
-        if (shellType == ShellType.Live)
-        {
-            _uiService.LoadingAnimation(3000, "It was live, you shot the dealer");
-
-            if (!_dealer.IsAlive)
-            {
-                _context.TransitionTo<WinState>();
-                return;
-            }
-        }
-        else
-        {
-            _uiService.LoadingAnimation(3000, "It was blank, the dealer is unharmed");
-        }
-
-        _context.TransitionTo<DealerTurnState>();
-    }
-
-    private enum Target
-    {
-        You,
-        Dealer
+        item.PlayerUse();
     }
 }

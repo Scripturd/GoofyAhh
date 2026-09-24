@@ -1,5 +1,4 @@
 ﻿using GoofyAhh.Common.Commands;
-using Spectre.Console;
 
 namespace GoofyAhh.Common;
 
@@ -9,8 +8,12 @@ public class Program
     {
         Random random = new();
         UiService uiService = new(random);
-        CommandRegistry commandRegistry = new();
+        MainMenuCommandRegistry commandRegistry = new();
 
+        Mastermind.Module mastermind = new(
+            commandRegistry,
+            uiService,
+            random);
         BuckshotRoulette.Module buckshotRoulette = new(
             commandRegistry,
             uiService,
@@ -28,24 +31,17 @@ public class Program
             random);
 
         uiService.Clear();
-        DrawPanel();
 
         while (true)
         {
             Console.Title = "Main Menu";
             Console.ResetColor();
+            uiService.Clear();
             uiService.HorizontalBar();
             ICommand selectedCommand = uiService.SelectCommand(commandRegistry.MainMenuCommands, "Select a command:");
             Console.Title = selectedCommand.Name;
             uiService.Clear();
-            DrawPanel();
             selectedCommand.Execute();
-        }
-
-        void DrawPanel()
-        {
-            Panel panel = new("panel");
-            AnsiConsole.Write(panel);
         }
     }
 }

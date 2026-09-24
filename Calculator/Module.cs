@@ -3,10 +3,10 @@ using GoofyAhh.Common.Commands;
 
 namespace GoofyAhh.Calculator;
 
-internal class Module
+public class Module
 {
     public Module(
-        CommandRegistry commandRegistry,
+        MainMenuCommandRegistry commandRegistry,
         UiService uiService)
     {
         Calculator calculator = new(uiService);

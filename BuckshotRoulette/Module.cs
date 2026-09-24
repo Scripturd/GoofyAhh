@@ -3,10 +3,10 @@ using GoofyAhh.Common.Commands;
 
 namespace GoofyAhh.BuckshotRoulette;
 
-internal class Module
+public class Module
 {
     public Module(
-        CommandRegistry commandRegistry,
+        MainMenuCommandRegistry commandRegistry,
         UiService uiService, 
         Random random)
     {

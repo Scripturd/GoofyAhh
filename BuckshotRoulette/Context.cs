@@ -17,9 +17,6 @@ public class Context
             throw new InvalidOperationException(
                 $"State of type {typeof(TState).Name} has not been added.");
 
-        if (_state == state)
-            return;
-
         _state = state;
         _state.Start();
     }
