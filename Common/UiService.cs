@@ -62,15 +62,16 @@ public class UiService
 
     public bool Confirm(string question)
     {
-        Print(question);
+        Print(question + " (y/n)");
         string input = ReadLine();
 
-        if (input == "yes")
+        if (input.Equals("y", StringComparison.CurrentCultureIgnoreCase))
             return true;
 
-        if (input == "no")
+        if (input.Equals("n", StringComparison.CurrentCultureIgnoreCase))
             return false;
 
+        Print("Your answer has to be \"y\" or \"n\"");
         return Confirm(question);
     }
 
